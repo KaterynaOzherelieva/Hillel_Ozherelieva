@@ -29,5 +29,6 @@ people_records.insert(0, my_tuple)
 people_records[1], people_records[5] = people_records[5], people_records[1]
 print(people_records)
 
-grown_people = people_records[6][2] >= 30 and people_records[10][2] >= 30 and people_records[13][2] >= 30
+people_to_check = [6, 10, 13]
+grown_people = all(people_records[i][2] >= 30 for i in people_to_check)
 print(grown_people)
