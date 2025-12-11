@@ -10,7 +10,7 @@ class SumNumbersTest(TestCase):
         # self.assertEqual(15, result)
         assert 15 == result
 
-    def test_sum_negative_numbers(self):
+    def test_sum_minus_numbers(self):
         """
         test if sum of negative numbers is equal -50
         """
@@ -26,6 +26,13 @@ class SumNumbersTest(TestCase):
         result = sum_numbers(10, 15)
         # self.assertNotEqual(5, result)
         assert 5 != result
+
+    def test_sum_negative(self):
+        """
+        test if sum of not int / float value will raise an error
+        """
+        result = sum_numbers('7', '3')
+        self.assertEqual(10, result)
 
 
 class AverageNumbersTest(TestCase):
@@ -54,6 +61,12 @@ class AverageNumbersTest(TestCase):
         # self.assertIn(result, [100, 20, 50])
         assert result in [100, 20, 50]
 
+    def test_average_negative(self):
+        """
+        test if not entering any data will raise an error
+        """
+        result = average([])
+        self.assertEqual(10, result)
 
 class OppositeTextStringTest(TestCase):
 
@@ -72,6 +85,13 @@ class OppositeTextStringTest(TestCase):
         result = reverse('hello')
         # self.assertNotEqual('hello', result)
         assert 'hello' != result
+
+    def test_reversed_negative(self):
+        """
+        test if entering not a string value will raise an error
+        """
+        result = reverse(100)
+        self.assertEqual('001', result)
 
 
 class LongestWordTest(TestCase):
