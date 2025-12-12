@@ -26,6 +26,8 @@ def sum_numbers(a, b):
     """
     returns the sum of two numbers.
     """
+    if type(a) not in (int, float) or type(b) not in (int, float):
+        raise ValueError('Input must be a number')
     return a + b
 
 
@@ -37,6 +39,8 @@ def average(numbers):
     """
     returns the arithmetic mean of a list of numbers
     """
+    if not numbers:
+        raise ZeroDivisionError('List is empty')
     return sum(numbers) / len(numbers)
 
 
@@ -48,6 +52,8 @@ def reverse(text):
     """
     returns reversed string
     """
+    if text is not str:
+        raise ValueError('Input must be a string')
     return text[::-1]
 
 
