@@ -1,5 +1,8 @@
 import os
 import requests
+from requests import Response
+
+from image_upload_func import image_upload
 
 
 BASE_URL = "http://127.0.0.1:8080"
@@ -7,30 +10,54 @@ IMAGE_PATH = os.path.join(os.path.dirname(__file__), "sticker.png")
 
 
 class TestImageAPI:
-    filename = None
+    # filename = None
 
     def test_upload_image(self):
 
-        with open(IMAGE_PATH, "rb") as image_file:
-            files = {"image": image_file}
-            response = requests.post(f"{BASE_URL}/upload", files=files)
-
-        image_url = response.json()["image_url"]
-        TestImageAPI.filename = image_url.split("/")[-1]
-
+        response: Response = image_upload()
         assert response.status_code == 201
 
     def test_get_image_url(self):
 
-        response = requests.get(f"{BASE_URL}/image/{TestImageAPI.filename}", headers={"Content-Type": "text"})
+        response: Response = image_upload()
+
+        image_url = response.json()["image_url"]
+        filename = image_url.split("/")[-1]
+
+
+        response = requests.get(f"{BASE_URL}/image/{filename}", headers={"Content-Type": "text"})
+        assert response.status_code == 200
+
+    def test_get_image(self):
+
+        response: Response = image_upload()
+
+        image_url = response.json()["image_url"]
+        filename = image_url.split("/")[-1]
+
+
+        response = requests.get(f"{BASE_URL}/image/{filename}", headers={"Content-Type": "image"})
+
+        with open('test_image_download.png', 'wb') as image:
+            image.write(response.content)
+
         assert response.status_code == 200
 
 
 
     def test_delete_image(self):
 
-        response = requests.delete(f"{BASE_URL}/delete/{TestImageAPI.filename}")
+        response: Response = image_upload()
+
+        image_url = response.json()["image_url"]
+        filename = image_url.split("/")[-1]
+
+
+        response = requests.delete(f"{BASE_URL}/delete/{filename}")
         assert response.status_code == 200
+
+        response = requests.get(f"{BASE_URL}/image/{filename}", headers={"Content-Type": "text"})
+        assert response.status_code == 404
 
 
 
