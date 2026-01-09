@@ -26,7 +26,11 @@ class TestImageAPI:
 
 
         response = requests.get(f"{BASE_URL}/image/{filename}", headers={"Content-Type": "text"})
+
         assert response.status_code == 200
+        assert "json" in response.headers["Content-Type"]
+
+
 
     def test_get_image(self):
 
@@ -42,6 +46,7 @@ class TestImageAPI:
             image.write(response.content)
 
         assert response.status_code == 200
+        assert "image" in response.headers["Content-Type"]
 
 
 
