@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime, timedelta
 
-KEY = "Key TSTFEED0300|7E3E|0400"
+
 
 logging.basicConfig(
     filename="hb_test.log",
@@ -19,13 +19,13 @@ def read_log_file(filename):
 
 
 
-def filter_by_key(lines):
+def filter_by_key(lines, key):
     """
     Filter lines by KEY
     """
     filtered_lines = []
     for line in lines:
-        if KEY in line:
+        if key in line:
             filtered_lines.append(line)
     return filtered_lines
 
@@ -60,8 +60,9 @@ def analyze_heartbeat(filtered_lines):
 
 
 def main():
+    key = "Key TSTFEED0300|7E3E|0400"
     lines = read_log_file("hblog.txt")
-    filtered = filter_by_key(lines)
+    filtered = filter_by_key(lines, key)
     analyze_heartbeat(filtered)
 
 
