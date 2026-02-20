@@ -2,7 +2,7 @@ import pytest
 import requests
 import logging
 from requests.auth import HTTPBasicAuth
-from fixtures.herokuapp import *
+
 
 logging.basicConfig(
     level=logging.INFO,
