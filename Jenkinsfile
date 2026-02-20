@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+
+    tools {
+        jdk 'JAVA_HOME'
+    }
+
     stages {
 
         stage('Checkout') {
@@ -10,11 +15,23 @@ pipeline {
             }
         }
 
+        stage('Debug env') {
+            steps {
+                bat '''
+                    whoami
+                    echo WORKSPACE=%WORKSPACE%
+                    dir "C:\\Users\\KaterynaOzherelieva\\AppData\\Local\\Programs\\Python\\Python312\\python.exe"
+                    echo JAVA_HOME=%JAVA_HOME%
+                    where.exe java
+                    java -version
+                '''
+            }
+        }
+
         stage('Install dependencies') {
             steps {
                 bat '''
-                    C:/Users/KaterynaOzherelieva/AppData/Local/Programs/Python/Python312/python.exe" -m venv .venv
-                    python -m venv .venv
+                    "C:/Users/KaterynaOzherelieva/AppData/Local/Programs/Python/Python312/python.exe" -m venv .venv
                     .venv\\Scripts\\pip install --upgrade pip
                     .venv\\Scripts\\pip install -r requirements.txt
                 '''
@@ -45,7 +62,6 @@ pipeline {
                 taskkill /F /IM python.exe || exit 0
             '''
             allure includeProperties: false,
-                   jdk: '',
                    commandline: 'allure',
                    results: [[path: 'allure-results']]
         }
