@@ -1,13 +1,7 @@
 pipeline {
     agent any
 
-
-    tools {
-        jdk 'JAVA_HOME'
-    }
-
     stages {
-
         stage('Checkout') {
             steps {
                 git branch: 'main',
@@ -15,42 +9,29 @@ pipeline {
             }
         }
 
-        stage('Debug env') {
-            steps {
-                bat '''
-                    whoami
-                    echo WORKSPACE=%WORKSPACE%
-                    dir "C:\\Users\\KaterynaOzherelieva\\AppData\\Local\\Programs\\Python\\Python312\\python.exe"
-                    echo JAVA_HOME=%JAVA_HOME%
-                    where.exe java
-                    java -version
-                '''
-            }
-        }
-
         stage('Install dependencies') {
             steps {
-                bat '''
-                    "C:/Users/KaterynaOzherelieva/AppData/Local/Programs/Python/Python312/python.exe" -m venv .venv
-                    .venv\\Scripts\\pip install --upgrade pip
-                    .venv\\Scripts\\pip install -r requirements.txt
+                sh '''
+                    python3 -m venv .venv
+                    ./.venv/bin/python -m pip install --upgrade pip
+                    ./.venv/bin/python -m pip install -r requirements.txt
                 '''
             }
         }
 
         stage('Start Flask') {
             steps {
-                bat '''
-                    start /B .venv\\Scripts\\python homework_lesson_24\\cars_app.py > flask.log 2>&1
-                    timeout /t 5
+                sh '''
+                    snohup ./.venv/bin/python homework_lesson_24/cars_app.py > flask.log 2>&1 &
+                    sleep 5
                 '''
             }
         }
 
         stage('Run tests') {
             steps {
-                bat '''
-                    .venv\\Scripts\\python -m pytest homework_lesson_24\\tests_cars_api_search --alluredir=allure-results
+                sh '''
+                    ./.venv/bin/python -m pytest homework_lesson_24/tests_cars_api_search --alluredir=allure-results
                 '''
             }
         }
@@ -58,9 +39,8 @@ pipeline {
 
     post {
         always {
-            bat '''
-                taskkill /F /IM python.exe || exit 0
-            '''
+            sh 'pkill -f "homework_lesson_24/cars_app.py" || true'
+
             allure includeProperties: false,
                    commandline: 'allure',
                    results: [[path: 'allure-results']]
