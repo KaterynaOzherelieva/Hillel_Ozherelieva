@@ -31,7 +31,7 @@ pipeline {
         stage('Run tests') {
             steps {
                 sh '''
-                    ./.venv/bin/python -m pytest homework_lesson_24/tests_cars_api_search --alluredir=allure-results
+                    ./.venv/bin/python -m pytest homework_lesson_24/tests_cars_api_search/test_search_cars.py --alluredir=allure-results
                 '''
             }
         }
