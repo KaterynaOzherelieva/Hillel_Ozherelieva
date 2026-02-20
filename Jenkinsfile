@@ -6,13 +6,15 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/KaterynaOzherelieva/Hillel_Ozherelieva.git'
+                    url: 'https://github.com/KaterynaOzherelieva/Hillel_Ozherelieva.git',
+                    tool: 'Git'
             }
         }
 
         stage('Install dependencies') {
             steps {
                 bat '''
+                    C:\Users\KaterynaOzherelieva\AppData\Local\Microsoft\WindowsApps\python.exe -m venv .venv
                     python -m venv .venv
                     .venv\\Scripts\\pip install --upgrade pip
                     .venv\\Scripts\\pip install -r requirements.txt
