@@ -1,6 +1,9 @@
+import allure
 from unittest import TestCase, main
 from Homework_lesson_7.lesson_7 import sum_numbers, average, reverse, longest_word
 
+
+@allure.title ("Test sum of numbers")
 class SumNumbersTest(TestCase):
     def test_sum_positive_numbers(self):
         """
@@ -35,6 +38,7 @@ class SumNumbersTest(TestCase):
         self.assertEqual(10, result)
 
 
+@allure.title ("Test average numbers")
 class AverageNumbersTest(TestCase):
 
     def test_average_number_equal(self):
@@ -68,6 +72,7 @@ class AverageNumbersTest(TestCase):
         result = average([])
         self.assertEqual(10, result)
 
+@allure.title ("Test opposite text string")
 class OppositeTextStringTest(TestCase):
 
     def test_reversed_string_equal(self):
@@ -94,6 +99,7 @@ class OppositeTextStringTest(TestCase):
         self.assertEqual('001', result)
 
 
+@allure.title ("Test longest word")
 class LongestWordTest(TestCase):
     def test_longest_word_equal(self):
         """

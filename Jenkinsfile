@@ -19,19 +19,10 @@ pipeline {
             }
         }
 
-        stage('Start Flask') {
-            steps {
-                sh '''
-                    snohup ./.venv/bin/python homework_lesson_24/cars_app.py > flask.log 2>&1 &
-                    sleep 5
-                '''
-            }
-        }
-
         stage('Run tests') {
             steps {
                 sh '''
-                    ./.venv/bin/python -m pytest homework_lesson_24/tests_cars_api_search/test_search_cars.py --alluredir=allure-results
+                    ./.venv/bin/python -m pytest Tests/test_homework_12.py --alluredir=allure-results
                 '''
             }
         }
@@ -39,8 +30,6 @@ pipeline {
 
     post {
         always {
-            sh 'pkill -f "homework_lesson_24/cars_app.py" || true'
-
             allure includeProperties: false,
                    commandline: 'allure',
                    results: [[path: 'allure-results']]
