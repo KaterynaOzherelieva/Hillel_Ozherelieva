@@ -3,6 +3,7 @@ import requests
 import logging
 from requests.auth import HTTPBasicAuth
 
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
