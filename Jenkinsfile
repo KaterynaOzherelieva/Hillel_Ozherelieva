@@ -6,8 +6,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/KaterynaOzherelieva/Hillel_Ozherelieva.git',
-                    tool: 'Git'
+                    url: 'https://github.com/KaterynaOzherelieva/Hillel_Ozherelieva.git'
             }
         }
 
