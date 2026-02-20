@@ -1,9 +1,11 @@
-FROM python:3.13.12
+FROM jenkins/jenkins:lts
 
-WORKDIR /app
+USER root
 
-COPY test_docker_database_conn.py .
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends \
+      python3 python3-venv python3-pip \
+      openjdk-21-jre-headless \
+ && rm -rf /var/lib/apt/lists/*
 
-RUN pip install pytest psycopg2-binary
-
-CMD ["pytest", "-k", "TestDockerDB"]
+USER jenkins
